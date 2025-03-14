@@ -26,7 +26,6 @@ jobs:
         -v ${{ github.workspace }}/src:/app/src \
         -v ${{ github.workspace }}/Subnets:/app/Subnets \
         -v ${{ github.workspace }}/Russia:/app/Russia \
-        -v ${{ github.workspace }}/Ukraine:/app/Ukraine \
         -v ${{ github.workspace }}/Categories:/app/Categories \
         -v ${{ github.workspace }}/Services:/app/Services \
         -v ${{ github.workspace }}/SRS:/app/SRS \
@@ -43,31 +42,11 @@ jobs:
       with:
         file: "Russia/inside-dnsmasq-nfset.lst"
         version: 2.89
-    - name: Check Russia/outside-dnsmasq-ipset
-      uses: itdoginfo/dnsmasq-action@0.1
-      with:
-        file: "Russia/outside-dnsmasq-ipset.lst"
-        version: 2.89
-    - name: Check Russia/outside-dnsmasq-nfset
-      uses: itdoginfo/dnsmasq-action@0.1
-      with:
-        file: "Russia/outside-dnsmasq-nfset.lst"
-        version: 2.89
-    - name: Check Ukraine/inside-dnsmasq-ipset
-      uses: itdoginfo/dnsmasq-action@0.1
-      with:
-        file: "Ukraine/inside-dnsmasq-ipset.lst"
-        version: 2.89
-    - name: Check Ukraine/inside-dnsmasq-nfset
-      uses: itdoginfo/dnsmasq-action@0.1
-      with:
-        file: "Ukraine/inside-dnsmasq-nfset.lst"
-        version: 2.89
 
     - name: Push lists
       uses: EndBug/add-and-commit@v9
       with:
-        add: 'Russia Ukraine'
+        add: 'Russia'
         author_name: GitHub Action
         author_email: githubaction@githubaction.com
         message: 'Update lists'

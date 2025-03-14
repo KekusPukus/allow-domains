@@ -386,7 +386,7 @@ def generate_dat_domains(data_path='geosite_data', output_name='geosite.dat', ou
         print(f"Compile error {data_path}: {e}")
 
 if __name__ == '__main__':
-    # Russia inside
+    # Russia inside 
     Path("Russia").mkdir(parents=True, exist_ok=True)
 
     removeDomains = {'google.com', 'googletagmanager.com', 'github.com', 'githubusercontent.com', 'githubcopilot.com', 'microsoft.com', 'cloudflare-dns.com', 'parsec.app' }

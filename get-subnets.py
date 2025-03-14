@@ -14,7 +14,7 @@ IPv6_DIR = 'Subnets/IPv6'
 AS_TWITTER = '13414'
 TWITTER = 'twitter.lst'
 
-# From https://iplist.opencck.org/
+# From https://iplist.opencck.org/ 
 DISCORD_VOICE_V4='https://iplist.opencck.org/?format=text&data=cidr4&site=discord.gg&site=discord.media'
 DISCORD_VOICE_V6='https://iplist.opencck.org/?format=text&data=cidr6&site=discord.gg&site=discord.media'
 

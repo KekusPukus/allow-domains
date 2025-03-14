@@ -12,14 +12,8 @@ rusDomainsInsideOut='Russia/inside'
 rusDomainsInsideSrcSingle='src/Russia-domains-inside-single.lst'
 rusDomainsInsideCategories='Categories'
 rusDomainsInsideServices='Services'
-rusDomainsOutsideSrc='src/Russia-domains-outside.lst'
-rusDomainsOutsideOut='Russia/outside'
-uaDomainsSrc='src/Ukraine-domains-inside.lst'
-uaDomainsOut='Ukraine/inside'
 DiscordSubnets = 'Subnets/IPv4/discord.lst'
-MetaSubnets = 'Subnets/IPv4/meta.lst'
 TwitterSubnets = 'Subnets/IPv4/twitter.lst'
-TelegramSubnets = 'Subnets/IPv4/telegram.lst'
 
 def raw(src, out):
     domains = set()
@@ -217,7 +211,7 @@ def generate_srs_for_categories(directories, output_json_directory='JSON', compi
     os.makedirs(output_json_directory, exist_ok=True)
     os.makedirs(compiled_output_directory, exist_ok=True)
 
-    exclude = {"meta", "twitter", "discord"}
+    exclude = {"twitter", "discord"}
 
     for directory in directories:
         for filename in os.listdir(directory):
@@ -406,39 +400,9 @@ if __name__ == '__main__':
     kvas(inside_lists, rusDomainsInsideOut, removeDomainsKvas)
     mikrotik_fwd(inside_lists, rusDomainsInsideOut, removeDomains)
 
-    # Russia outside
-    outside_lists = [rusDomainsOutsideSrc]
-
-    raw(outside_lists, rusDomainsOutsideOut)
-    dnsmasq(outside_lists, rusDomainsOutsideOut)
-    clashx(outside_lists, rusDomainsOutsideOut)
-    kvas(outside_lists, rusDomainsOutsideOut)
-    mikrotik_fwd(outside_lists, rusDomainsOutsideOut)
-
-    # Ukraine
-    Path("Ukraine").mkdir(parents=True, exist_ok=True)
-
-    urllib.request.urlretrieve("https://uablacklist.net/domains.txt", "uablacklist-domains.lst")
-    urllib.request.urlretrieve("https://raw.githubusercontent.com/zhovner/zaborona_help/master/config/domainsdb.txt", "zaboronahelp-domains.lst")
-
-    ua_lists = ['uablacklist-domains.lst', 'zaboronahelp-domains.lst', uaDomainsSrc]
-    
-    raw(ua_lists, uaDomainsOut)
-    dnsmasq(ua_lists, uaDomainsOut)
-    clashx(ua_lists, uaDomainsOut)
-    kvas(ua_lists, uaDomainsOut)
-    mikrotik_fwd(ua_lists, uaDomainsOut)
-
-    for temp_file in ['uablacklist-domains.lst', 'zaboronahelp-domains.lst']:
-        Path(temp_file).unlink()
-
     # Sing-box ruleset main
     russia_inside = domains_from_file('Russia/inside-raw.lst')
-    russia_outside = domains_from_file('Russia/outside-raw.lst')
-    ukraine_inside = domains_from_file('Ukraine/inside-raw.lst')
     generate_srs_domains(russia_inside, 'russia_inside')
-    generate_srs_domains(russia_outside, 'russia_outside')
-    generate_srs_domains(ukraine_inside, 'ukraine_inside')
 
     # Sing-box categories
     directories = ['Categories', 'Services']
@@ -447,11 +411,7 @@ if __name__ == '__main__':
     # Sing-box subnets + domains
     generate_srs_combined(DiscordSubnets, "Services/discord.lst")
     generate_srs_combined(TwitterSubnets, "Services/twitter.lst")
-    generate_srs_combined(MetaSubnets, "Services/meta.lst")
-    generate_srs_combined(TelegramSubnets, "Services/telegram.lst")
 
     # Xray domains
     prepare_dat_domains(directories, 'russia-inside')
-    prepare_dat_domains(russia_outside, 'russia-outside')
-    prepare_dat_domains(ukraine_inside, 'ukraine-inside')
     generate_dat_domains()

@@ -11,19 +11,14 @@ AS_FILE = 'AS.lst'
 IPv4_DIR = 'Subnets/IPv4'
 IPv6_DIR = 'Subnets/IPv6'
 
-AS_META = '32934'
 AS_TWITTER = '13414'
-META = 'meta.lst'
 TWITTER = 'twitter.lst'
-TELEGRAM = 'telegram.lst'
 
 # From https://iplist.opencck.org/
 DISCORD_VOICE_V4='https://iplist.opencck.org/?format=text&data=cidr4&site=discord.gg&site=discord.media'
 DISCORD_VOICE_V6='https://iplist.opencck.org/?format=text&data=cidr6&site=discord.gg&site=discord.media'
 
 DISCORD = 'discord.lst'
-
-TELEGRAM_CIDR_URL = 'https://core.telegram.org/resources/cidr.txt'
 
 subnet_list = []
 
@@ -108,11 +103,6 @@ if __name__ == '__main__':
             subnet, as_number = decoded_line.split()
             subnet_list.append((subnet, as_number))
 
-    # Meta
-    ipv4_merged_meta, ipv6_merged_meta = process_subnets(subnet_list, AS_META)
-    write_subnets_to_file(ipv4_merged_meta, f'{IPv4_DIR}/{META}')
-    write_subnets_to_file(ipv6_merged_meta, f'{IPv6_DIR}/{META}')
-
     # Twitter
     ipv4_merged_twitter, ipv6_merged_twitter = process_subnets(subnet_list, AS_TWITTER)
     write_subnets_to_file(ipv4_merged_twitter, f'{IPv4_DIR}/{TWITTER}')
@@ -123,14 +113,7 @@ if __name__ == '__main__':
     write_subnets_to_file(ipv4_discord, f'{IPv4_DIR}/{DISCORD}')
     write_subnets_to_file(ipv6_discord, f'{IPv6_DIR}/{DISCORD}')
 
-    # Telegram
-    ipv4_telegram, ipv6_telegram = download_ready_split_subnets(TELEGRAM_CIDR_URL)
-    write_subnets_to_file(ipv4_telegram, f'{IPv4_DIR}/{TELEGRAM}')
-    write_subnets_to_file(ipv6_telegram, f'{IPv6_DIR}/{TELEGRAM}')
-
     # Legacy name
-    copy_file_legacy(f'{IPv4_DIR}/{META}')
-    copy_file_legacy(f'{IPv6_DIR}/{META}')
     copy_file_legacy(f'{IPv4_DIR}/{TWITTER}')
     copy_file_legacy(f'{IPv6_DIR}/{TWITTER}')
     copy_file_legacy(f'{IPv4_DIR}/{DISCORD}')
